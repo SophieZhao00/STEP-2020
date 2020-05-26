@@ -26,4 +26,8 @@ function addRandomFact() {
     // Add it to the page.
     const factContainer = document.getElementById('fact-container');
     factContainer.innerText = fact;
+
+    // Update texts in button
+    const button = document.getElementById('button');
+    button.innerText = "See another one";
 }

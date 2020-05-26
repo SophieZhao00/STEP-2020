@@ -8,6 +8,10 @@
 
 #fact-container {
   margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 25px;
+  color: #2E86C1;
 }
 
 .img {
@@ -27,6 +31,17 @@
 .text-container {
     padding-top: 30px;
     vertical-align: middle;
+}
+
+#button {
+    background-color: lightyellow;
+    padding: 8px;
+    border-radius: 8px;
+    width: 80%;
+    font-size: 16px;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 20px;
 }
 
 /* Navigation Bar */
