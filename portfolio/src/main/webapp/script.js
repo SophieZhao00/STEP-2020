@@ -31,3 +31,12 @@ function addRandomFact() {
     const button = document.getElementById('button');
     button.innerText = "See another one";
 }
+
+/**
+ * Adds a response after user posts a comment
+ */
+async function getResponse() {
+    const response = await fetch('/data');
+    const responseText = await response.text();
+    document.getElementById('response-container').innerText = responseText;
+}
