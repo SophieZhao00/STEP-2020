@@ -15,18 +15,50 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import com.google.gson.Gson;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that handles (returns) comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+<<<<<<< HEAD
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     response.getWriter().println("<h1>Hello world!</h1>");
   }
+=======
+    private List<String> comments;
+
+    @Override
+    public void init() {
+        comments = new ArrayList<>();
+        comments.add("Comment 1.");
+        comments.add("Comment 2.");
+        comments.add("Comment 3.");
+    }
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String json = convertToJson(comments);
+
+        response.setContentType("application/json;");
+        response.getWriter().println(json);
+    }
+
+    /**
+     * Converts a list of comemnts into a JSON string using the Gson library.
+     */
+    private String convertToJson(List<String> comments) {
+        Gson gson = new Gson();
+        String json = gson.toJson(comments);
+        return json;
+    }
+>>>>>>> b450a22... Return a list of comments when click post
 }
