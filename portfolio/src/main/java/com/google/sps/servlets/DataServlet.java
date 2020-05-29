@@ -40,7 +40,6 @@ public class DataServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String json = convertToJson(comments);
-
         response.setContentType("application/json;");
         response.getWriter().println(json);
     }
@@ -52,5 +51,24 @@ public class DataServlet extends HttpServlet {
         Gson gson = new Gson();
         String json = gson.toJson(comments);
         return json;
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String newComment = getParameter(request, "text-input", "");
+        comments.add(newComment);
+        response.sendRedirect("/comment.html");
+    }
+
+    /**
+     * @return the request parameter, or the default value if the parameter
+     *         was not specified by the client
+     */
+    private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+        String value = request.getParameter(name);
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
     }
 }
