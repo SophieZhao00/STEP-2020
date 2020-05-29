@@ -5,23 +5,27 @@
 	<meta charset="UTF-8">
 	<title>Contact - Sophie Zhao</title>
 	<link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+	<script src="script.js"></script>
 </head>
 
-<body>
+<body onload="showHistory()">
 	<!-- Navigation bar -->
 	<ul class="ul">
 		<li class="li"><a href="index.html">Home</a></li>
 		<li class="li"><a href="cats.html">My Cats</a></li>
-        <li class="li"><a class="active" href="comment.html">Contact</a></li>
+		<li class="li"><a class="active" href="comment.html">Contact</a></li>
 	</ul>
 
 	<div id="content">
 		<h1>Leave a message</h1>
-		<p><a href="/data">Click Here!</a></p>
-        <button onclick="getResponse()">post</button>
+		<form action="/data" method="POST">
+			<textarea name="text-input"></textarea>
+			<br/><br/>
+			<input type="submit" />
+        </form>
+
+        <h2 id="comment-history">History</h2>
         <ul id="comments-container"></ul>
-        <br>
 	</div>
 </body>
 
