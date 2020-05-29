@@ -37,6 +37,20 @@ function addRandomFact() {
  */
 async function getResponse() {
     const response = await fetch('/data');
-    const responseText = await response.text();
-    document.getElementById('response-container').innerText = responseText;
+    const comments = await response.json();
+    
+    // list out the comments
+    const commentsContainer = document.getElementById('comments-container');
+    commentsContainer.innerHTML = '';
+    for (var i = 0; i < comments.length; i++){
+        console.log(i + ": " + comments[i]);
+        commentsContainer.appendChild(createListElement(comments[i]));
+    }
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+    const liElement = document.createElement('li');
+    liElement.innerText = text;
+    return liElement;
 }
