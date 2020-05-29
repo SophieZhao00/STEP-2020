@@ -35,7 +35,7 @@ function addRandomFact() {
 /**
  * Adds a response after user posts a comment
  */
-async function getResponse() {
+async function showHistory() {
     const response = await fetch('/data');
     const comments = await response.json();
     
