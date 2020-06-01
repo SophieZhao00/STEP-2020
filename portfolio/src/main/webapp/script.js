@@ -45,7 +45,6 @@ async function showHistory() {
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     for (var i = 0; i < comments.length; i++){
-        console.log(i + ": " + comments[i]);
         commentsContainer.appendChild(createListElement(comments[i]));
     }
 }
@@ -55,4 +54,12 @@ function createListElement(text) {
     const liElement = document.createElement('li');
     liElement.innerText = text;
     return liElement;
+}
+
+/**
+ * Delete all comments
+ */
+async function deleteComments() {
+    await fetch('/delete-data', {method: 'POST'});
+    showHistory();
 }
