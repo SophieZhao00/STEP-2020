@@ -17,16 +17,27 @@
 	</ul>
 
 	<div id="content">
-		<h1>Leave a message</h1>
+		<!-- Post comment -->
+        <h1>Leave a message</h1>
 		<form action="/data" method="POST">
 			<textarea name="text-input"></textarea>
 			<br/><br/>
 			<input type="submit" />
         </form>
 
+        <!-- Show hostory comments -->
         <h2 id="comment-history">History</h2>
         <ul id="comments-container"></ul>
-        <button onclick="showHistory()">show history</button>
+
+        <label for="maxNum">Please specify max number of comments you would like to display:</label>
+        <select name="maxNum" id="maxNum">
+            <option value=0>unlimited</option>
+            <option value=1>1</option>
+            <option value=10>10</option>
+            <option value=100>100</option>
+        </select>
+        <br><br>
+        <button onclick="showHistory()">Show comments</button>
 	</div>
 </body>
 
