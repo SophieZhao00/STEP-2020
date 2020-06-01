@@ -36,7 +36,9 @@ function addRandomFact() {
  * Adds a response after user posts a comment
  */
 async function showHistory() {
-    const response = await fetch('/data');
+    // get comments
+    const maxNum = document.getElementById("maxNum").value;
+    const response = await fetch('/data?maxNum=' + maxNum);
     const comments = await response.json();
     
     // list out the comments
