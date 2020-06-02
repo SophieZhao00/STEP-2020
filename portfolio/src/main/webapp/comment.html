@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Contact - Sophie Zhao</title>
 	<link rel="stylesheet" href="style.css">
+	<script src="script.js"></script>
 </head>
 
 <body>
@@ -12,13 +13,33 @@
 	<ul class="ul">
 		<li class="li"><a href="index.html">Home</a></li>
 		<li class="li"><a href="cats.html">My Cats</a></li>
-        <li class="li"><a class="active" href="comment.html">Contact</a></li>
+		<li class="li"><a class="active" href="comment.html">Contact</a></li>
 	</ul>
 
 	<div id="content">
-		<h1>Leave a message</h1>
-		<a href="/data">Click Here!</a>
-        <br>
+		<!-- Post comment -->
+        <h1>Leave a message</h1>
+		<form action="/data" method="POST">
+			<textarea name="text-input"></textarea>
+			<br/><br/>
+			<input type="submit" />
+        </form>
+
+        <!-- Show hostory comments -->
+        <h2 id="comment-history">History</h2>
+        <ul id="comments-container"></ul>
+
+        <label for="maxNum">Please specify max number of comments you would like to display:</label>
+        <select name="maxNum" id="maxNum">
+            <option value=0>unlimited</option>
+            <option value=1>1</option>
+            <option value=10>10</option>
+            <option value=100>100</option>
+        </select>
+        <br><br>
+        <button onclick="showHistory()">Show comments</button>
+        <br><br>
+        <button onclick="deleteComments()">Delete all comments</button>
 	</div>
 </body>
 

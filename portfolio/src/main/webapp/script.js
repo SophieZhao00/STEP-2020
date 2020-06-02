@@ -31,3 +31,35 @@ function addRandomFact() {
     const button = document.getElementById('button');
     button.innerText = "See another one";
 }
+
+/**
+ * Adds a response after user posts a comment
+ */
+async function showHistory() {
+    // get comments
+    const maxNum = document.getElementById("maxNum").value;
+    const response = await fetch('/data?maxNum=' + maxNum);
+    const comments = await response.json();
+    
+    // list out the comments
+    const commentsContainer = document.getElementById('comments-container');
+    commentsContainer.innerHTML = '';
+    for (var i = 0; i < comments.length; i++){
+        commentsContainer.appendChild(createListElement(comments[i]));
+    }
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+    const liElement = document.createElement('li');
+    liElement.innerText = text;
+    return liElement;
+}
+
+/**
+ * Delete all comments
+ */
+async function deleteComments() {
+    await fetch('/delete-data', {method: 'POST'});
+    showHistory();
+}

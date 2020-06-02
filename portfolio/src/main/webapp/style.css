@@ -75,3 +75,8 @@ li a:hover:not(.active) {
 .active {
     background-color: black;
 }
+
+#comments-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
