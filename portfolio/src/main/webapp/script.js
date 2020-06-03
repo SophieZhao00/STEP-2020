@@ -45,7 +45,7 @@ async function showHistory() {
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     for (var i = 0; i < comments.length; i++){
-        commentsContainer.appendChild(createListElement(comments[i]));
+        commentsContainer.appendChild(createListElement(comments[i][0] + ": " + comments[i][1]));
     }
 }
 
