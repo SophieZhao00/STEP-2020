@@ -8,7 +8,7 @@
 	<script src="script.js"></script>
 </head>
 
-<body>
+<body onload="showCommentsInput()">
 	<!-- Navigation bar -->
 	<ul class="ul">
 		<li class="li"><a href="index.html">Home</a></li>
@@ -19,11 +19,7 @@
 	<div id="content">
 		<!-- Post comment -->
         <h1>Leave a message</h1>
-		<form action="/data" method="POST">
-			<textarea name="text-input"></textarea>
-			<br/><br/>
-			<input type="submit" />
-        </form>
+        <div id="inputContainer"><p></p></div>
 
         <!-- Show hostory comments -->
         <h2 id="comment-history">History</h2>
