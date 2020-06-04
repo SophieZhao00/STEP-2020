@@ -76,15 +76,31 @@ async function showCommentsInput() {
 }
 
 /** Creates a chart and adds it to the page. */
-function drawChart() {
+async function drawChart() {
+    // get data
+    const response = await fetch('/data?maxNum=0');
+    const comments = await response.json();
+
+    // get statistics
+    const email = ["@google.com", "@gmail.com", "Others"];
+    const emailData = [0, 0, 0];
+    comments.forEach((comment) => {
+        if (comment[0].includes(email[0])) {
+            emailData[0]++;
+        } else if (comment[0].includes(email[1])) {
+            emailData[1]++;
+        } else {
+            emailData[2]++;
+        }
+    })
+    
+    // create chart
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'Email');
     data.addColumn('number', 'Count');
-    data.addRows([
-        ['@google.com', 10],
-        ['@gmail.com', 5],
-        ['Others', 15]
-    ]);
+    for(var i = 0; i < email.length; i++){
+        data.addRow([email[i], emailData[i]]);
+    }
 
     const options = {
         'title': 'Statistics',
