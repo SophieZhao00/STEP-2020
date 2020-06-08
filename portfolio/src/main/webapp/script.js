@@ -77,22 +77,23 @@ async function showCommentsInput() {
 
 /** Creates a chart and adds it to the page. */
 function drawChart() {
-  const data = new google.visualization.DataTable();
-  data.addColumn('string', 'Email');
-  data.addColumn('number', 'Count');
-        data.addRows([
-          ['@google.com', 10],
-          ['@gmail.com', 5],
-          ['Others', 15]
-        ]);
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Email');
+    data.addColumn('number', 'Count');
+    data.addRows([
+        ['@google.com', 10],
+        ['@gmail.com', 5],
+        ['Others', 15]
+    ]);
 
-  const options = {
-    'title': 'Statistics',
-    'width':500,
-    'height':400
-  };
+    const options = {
+        'title': 'Statistics',
+        'width':500,
+        'height':400,
+        'pieHole': 0.4
+    };
 
-  const chart = new google.visualization.PieChart(
-      document.getElementById('chart-container'));
-  chart.draw(data, options);
+    const chart = new google.visualization.PieChart(
+        document.getElementById('chart-container'));
+    chart.draw(data, options);
 }
