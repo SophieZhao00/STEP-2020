@@ -63,3 +63,11 @@ async function deleteComments() {
     await fetch('/delete-data', {method: 'POST'});
     showHistory();
 }
+
+/** Show comments input */
+async function showCommentsInput() {
+    const response = await fetch('/login');
+    const showInput = await response.text();
+    const inputContainer = document.getElementById('inputContainer');
+    inputContainer.innerHTML = showInput;
+}
