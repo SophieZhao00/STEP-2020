@@ -23,21 +23,37 @@ public final class FindMeetingQuery {
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
 
         // get TimeRange of events filtered by attendees
-        List<TimeRange> eventsTimeRanges = new ArrayList<>();
-        for (Event event: events) 
-            if(containSameAttendees(event, request))
-                eventsTimeRanges.add(event.getWhen());
+        List<TimeRange> eventsTimeRangesForMandatoryAttendees = new ArrayList<>();
+        List<TimeRange> eventsTimeRangesWithOptionalAttendees = new ArrayList<>();
+        for (Event event: events) {
+            if(containSameAttendees(event.getAttendees(), request.getAttendees())) {
+                eventsTimeRangesForMandatoryAttendees.add(event.getWhen());
+                eventsTimeRangesWithOptionalAttendees.add(event.getWhen());
+            } else if (containSameAttendees(event.getAttendees(), request.getOptionalAttendees())) {
+                eventsTimeRangesWithOptionalAttendees.add(event.getWhen());
+            }
+        }
 
-        Collections.sort(eventsTimeRanges, TimeRange.ORDER_BY_START);
-        Collection<TimeRange> combinedTimeRanges = combineTimeRanges(eventsTimeRanges);
+        // Try adding the optional attendees
+        Collections.sort(eventsTimeRangesWithOptionalAttendees, TimeRange.ORDER_BY_START);
+        Collection<TimeRange> combinedTimeRanges = combineTimeRanges(eventsTimeRangesWithOptionalAttendees);
+        Collection<TimeRange> freeTimeRanges = getFreeTimeRanges(combinedTimeRanges, request.getDuration());
+        if (freeTimeRanges.size() > 0 || request.getAttendees().size() ==0)
+            return freeTimeRanges;
 
-        return getFreeTimeRanges(combinedTimeRanges, request);
+        // If no time slot with optional attendees, try only mandatory attendees
+        Collections.sort(eventsTimeRangesForMandatoryAttendees, TimeRange.ORDER_BY_START);
+        combinedTimeRanges = combineTimeRanges(eventsTimeRangesForMandatoryAttendees);
+        return getFreeTimeRanges(combinedTimeRanges, request.getDuration());
     }
 
     /** Check if the event and the request contains the same attendee. */
-    private boolean containSameAttendees(Event event, MeetingRequest request) {
-        for (String attendee: event.getAttendees())
-            if (request.getAttendees().contains(attendee))
+    private boolean containSameAttendees(Collection<String> eventAttendees, Collection<String> requestAttendees) {
+        if (requestAttendees.size() == 0)
+            return false;
+
+        for (String attendee: eventAttendees)
+            if (requestAttendees.contains(attendee))
                 return true;
         return false;
     }
@@ -77,18 +93,18 @@ public final class FindMeetingQuery {
      * Get a Collection of free TimeRanges given a collection of busy TimeRanges.
      * Only include TimeRanges with at least requested duration.
      */
-    private Collection<TimeRange> getFreeTimeRanges(Collection<TimeRange> busyTimeRanges, MeetingRequest request) {
+    private Collection<TimeRange> getFreeTimeRanges(Collection<TimeRange> busyTimeRanges, Long requestDuration) {
         Collection<TimeRange> freeTimeRanges = new ArrayList<>();
         int start = TimeRange.START_OF_DAY;
         for (TimeRange time: busyTimeRanges) {
             int newEnd = time.start();
             int newStart = time.end();
-            if (newEnd - start >= request.getDuration())
+            if (newEnd - start >= requestDuration)
                 freeTimeRanges.add(TimeRange.fromStartEnd(start, newEnd, false));
             start = newStart;
         }
 
-        if (TimeRange.END_OF_DAY - start >= request.getDuration())
+        if (TimeRange.END_OF_DAY - start >= requestDuration)
             freeTimeRanges.add(TimeRange.fromStartEnd(start, TimeRange.END_OF_DAY, true));
 
         return freeTimeRanges;
