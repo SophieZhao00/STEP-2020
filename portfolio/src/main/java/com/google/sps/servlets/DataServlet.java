@@ -45,13 +45,15 @@ public class DataServlet extends HttpServlet {
 
         // get a specific number of comments
         int max = getMaxNum(request);
-        List<String> comments = new ArrayList<>();
+        List<String[]> comments = new ArrayList<>();
         Iterator iterator = results.asIterable().iterator();
         Entity entity;
         while(iterator.hasNext() && max != 0) {
             entity = (Entity) iterator.next();
+            String email = (String) entity.getProperty("email");
             String text = (String) entity.getProperty("text");
-            comments.add(text);
+            String[] ele = {email, text};
+            comments.add(ele);
             max--;
         }
 
